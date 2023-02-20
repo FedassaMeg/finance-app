@@ -1,6 +1,66 @@
 import React, { useState } from "react";
+import { ActionFunction, json } from "@remix-run/node";
 import { FormField } from "~/components/form-field";
 import { Layout } from "~/components/layout";
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "~/utils/validators.server";
+import { login, register } from "~/utils/auth.server";
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const action = form.get("_action");
+  const email = form.get("email");
+  const password = form.get("password");
+  let firstName = form.get("firstName");
+  let lastName = form.get("lastName");
+
+  if (
+    typeof action !== "string" ||
+    typeof email !== "string" ||
+    typeof password !== "string"
+  ) {
+    return json({ error: "Invalid Form Data", form: action }, { status: 400 });
+  }
+
+  if (
+    action === "register" &&
+    (typeof firstName !== "string" || typeof lastName !== "string")
+  ) {
+    return json({ error: "Invalid Form Data", form: action }, { status: 400 });
+  }
+
+  const errors = {
+    email: validateEmail(email),
+    password: validatePassword(password),
+    ...(action === "register"
+      ? {
+          firstName: validateName((firstName as string) || ""),
+          lastName: validateName((lastName as string) || ""),
+        }
+      : {}),
+  };
+
+  if (Object.values(errors).some(Boolean))
+    return json(
+      {
+        errors,
+        fields: { email, password, firstName, lastName },
+        form: action,
+      },
+      { status: 400 }
+    );
+
+  if (action === "login") {
+    return await login({ email, password });
+  } else if (action === "register") {
+    return await register({ email, password, firstName, lastName });
+  } else {
+    return json({ error: "Invalid Form Data" }, { status: 400 });
+  }
+};
 
 export default function Login() {
   const [action, setAction] = useState("login");
@@ -20,11 +80,7 @@ export default function Login() {
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setAction(action === "login" ? "register" : "login");
-  }
-
-  const handleSubmitClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  }
+  };
 
   return (
     <Layout>
@@ -34,7 +90,7 @@ export default function Login() {
           {action === "login" ? "Log In" : "Sign Up"}
         </p>
 
-        <form className="rounded-2xl bg-gray-200 p-6 w-96">
+        <form method="POST" className="rounded-2xl bg-gray-200 p-6 w-96">
           {action === "register" && (
             <>
               <FormField
@@ -65,8 +121,10 @@ export default function Login() {
           />
           <div className="w-full text-center">
             <button
+              type="submit"
+              name="_action"
+              value={action}
               className="rounded-xl mt-2 px-3 py-2 font-semibold transition duration-300 ease-in-out hover:-translate-y-1"
-              onClick={handleSubmitClick}
             >
               {action === "login" ? "Sign In" : "Sign Up"}
             </button>
