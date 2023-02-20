@@ -1,6 +1,19 @@
+import React, { useState } from "react";
+import { FormField } from "~/components/form-field";
 import { Layout } from "~/components/layout";
 
 export default function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setFormData((form) => ({
+      ...form,
+      [event.target.name]: event.target.value,
+    }));
+
   return (
     <Layout>
       <div className="h-full justify-center items-center flex flex-col gap-y-4">
@@ -8,26 +21,18 @@ export default function Login() {
         <p className="font-semibold text-slate-300">Login</p>
 
         <form method="post" className="rounded-2xl bg-gray-200 p-6 w-96">
-          <label htmlFor="email" className="font-semibold">
-            Email
-          </label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            className="w-full p-2 rounded-xl my-2"
+          <FormField
+            htmlFor="email"
+            label="Email"
+            value={formData.email}
+            onChange={handleInputChange}
           />
-
-          <label htmlFor="password" className="font-semibold">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className="w-full p-2 rounded-xl my-2"
+          <FormField
+            htmlFor="password"
+            label="Password"
+            value={formData.password}
+            onChange={handleInputChange}
           />
-
           <div className="w-full text-center">
             <input
               type="submit"
