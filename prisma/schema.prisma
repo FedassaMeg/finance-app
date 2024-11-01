@@ -20,7 +20,23 @@ model User {
   budgets Budget[]
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  firstName String
+  lastName  String
+  accounts  Account[]
+  budgets Budget[]
+}
+
 model Account {
+  id      Int       @id @default(autoincrement())
+  name    String
+  type    String
+  balance Float
+  userId  Int
+  user    User      @relation(fields: [userId], references: [id])
   id      Int       @id @default(autoincrement())
   name    String
   type    String
