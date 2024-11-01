@@ -1,6 +1,6 @@
-import { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import prisma from "~/lib/db.server";
+import prisma from "../../../lib/db.server";
 
 async function getLoaderData(accountId: number) {
   const account = await prisma.account.findUnique({
