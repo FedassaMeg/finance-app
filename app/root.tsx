@@ -1,5 +1,4 @@
-import type { MetaFunction, LinksFunction } from "@remix-run/node";
-import styles from "~/styles/tailwind.css";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -8,17 +7,20 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import stylesheet from "./styles.css?url";
+
+export const meta: MetaFunction = () => [{
+  charSet: "utf-8",
+  title: "Tom's Finance App",
+  name: "viewport",
+  content: "width=device-width, initial-scale=1",
+}]
+
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: "stylesheet", href: stylesheet }];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Tom's Finance App",
-  viewport: "width=device-width,initial-scale=1",
-});
-
-export default function App() {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -26,10 +28,14 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
+}
+
+export default function App() {
+  return <Outlet />;
 }
