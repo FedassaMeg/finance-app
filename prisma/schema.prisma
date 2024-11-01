@@ -10,24 +10,88 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  firstName String
+  lastName  String
+  accounts  Account[]
+  budgets Budget[]
+}
+
 model Account {
-  id           Int           @id @default(autoincrement())
-  name         String
-  type         String
+  id      Int       @id @default(autoincrement())
+  name    String
+  type    String
+  balance Float
+  userId  Int
+  user    User      @relation(fields: [userId], references: [id])
   transactions Transaction[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
 }
 
 model Transaction {
-  id        Int      @id @default(autoincrement())
-  label     String
-  type      String
-  account   Account  @relation(fields: [accountId], references: [id])
-  accountId Int
-  amount    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  date        DateTime
+  description String
+  amount      Float
+  status      String
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  transactionLines TransactionLine[]
+}
+
+model TransactionLine {
+  id            Int       @id @default(autoincrement())
+  debitAccountId  Int
+  creditAccountId Int
+  transactionId  Int
+  amount        Float
+  debitAccount  Account  @relation("TransactionLinesDebit", fields: [debitAccountId], references: [id])
+  creditAccount Account  @relation("TransactionLinesCredit", fields: [creditAccountId], references: [id])
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+}
+
+model Loan {
+  id             Int       @id @default(autoincrement())
+  name           String
+  principalAmount Float
+  interestRate   Float
+  term           Int
+  startDate      DateTime
+  endDate        DateTime
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model Investment {
+  id                Int       @id @default(autoincrement())
+  name              String
+  type              String
+  purchaseDate      DateTime
+  purchasePrice     Float
+  quantity          Float
+  currentMarketValue Float
+  userId            Int
+  user              User      @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  type String
+  budgets Budget[]
+}
+
+model Budget {
+  id         Int      @id @default(autoincrement())
+  categoryId Int
+  amount     Float
+  startDate  DateTime
+  endDate    DateTime
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 }
 
 model User {
