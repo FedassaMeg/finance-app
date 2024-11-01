@@ -1,33 +1,25 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  password  String
-  firstName String
-  lastName  String
-  accounts  Account[]
-  budgets Budget[]
+generator client {
+  provider = "prisma-client-js"
 }
 
 model User {
   id        Int       @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   email     String    @unique
   password  String
-  firstName String
-  lastName  String
+  firstName String?
+  lastName  String?
   accounts  Account[]
   budgets Budget[]
+  loans Loan[]
+  transactions Transaction[]
+  investments Investment[]
 }
 
 model Account {
@@ -37,12 +29,8 @@ model Account {
   balance Float
   userId  Int
   user    User      @relation(fields: [userId], references: [id])
-  id      Int       @id @default(autoincrement())
-  name    String
-  type    String
-  balance Float
-  userId  Int
-  user    User      @relation(fields: [userId], references: [id])
+  debitTransactionLines TransactionLine[] @relation("TransactionLinesDebit")
+  creditTransactionLines TransactionLine[] @relation("TransactionLinesCredit")
   transactions Transaction[]
 }
 
@@ -54,6 +42,7 @@ model Transaction {
   status      String
   userId      Int
   user        User      @relation(fields: [userId], references: [id])
+  account          Account          @relation(fields: [userId], references: [id])
   transactionLines TransactionLine[]
 }
 
@@ -108,14 +97,4 @@ model Budget {
   userId     Int
   user       User     @relation(fields: [userId], references: [id])
   category   Category @relation(fields: [categoryId], references: [id])
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  firstName String
-  lastName  String
 }
