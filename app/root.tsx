@@ -2,7 +2,6 @@ import type { MetaFunction, LinksFunction } from "@remix-run/node";
 import styles from "~/styles/app.css";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -30,7 +29,6 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
