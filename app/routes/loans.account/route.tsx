@@ -1,5 +1,5 @@
 import { useLoaderData, Link } from "@remix-run/react";
-import prisma from "~/lib/db.server";
+import prisma from "../../lib/db.server";
 
 export const loader = async () => {
   console.log()

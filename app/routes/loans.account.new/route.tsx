@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormField } from "../../../components/form-field";
+import { FormField } from "../../components/form-field";
 
 // export const loader = async (data) => await prisma.transaction.create({
 //   data
