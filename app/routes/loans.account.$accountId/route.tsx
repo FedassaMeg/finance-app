@@ -1,17 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import prisma from "../../lib/db.server";
-
-async function getLoaderData(accountId: number) {
-  const account = await prisma.account.findUnique({
-    where: {
-      id: accountId,
-    },
-    include: { transactions: true },
-  });
-
-  return account;
-}
+import getLoaderData from "./get-account.server";
 
 export const loader = async ({ params }: LoaderArgs) => {
   const id = parseInt(params.accountId, 10);
