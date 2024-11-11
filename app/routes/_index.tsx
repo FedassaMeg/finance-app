@@ -2,10 +2,10 @@ import { LoaderFunction } from "@remix-run/node";
 import { requiredUserId } from "../utils/auth.server";
 import { Layout } from "../root";
 
-export const loader: LoaderFunction = async ({ request }) => {
-  await requiredUserId(request);
-  return null;
-};
+// export const loader: LoaderFunction = async ({ request }) => {
+//   await requiredUserId(request);
+//   return null;
+// };
 
 export default function Index() {
   return (
