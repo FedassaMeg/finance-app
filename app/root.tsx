@@ -6,6 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { AppSidebar } from "./components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 
 import stylesheet from "./styles.css?url";
 
@@ -28,7 +30,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <SidebarProvider>
+          <AppSidebar />
+          <main>
+            <SidebarTrigger />
+            {children}
+          </main>
+        </SidebarProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
