@@ -1,8 +1,11 @@
+import { Link } from "@remix-run/react";
+
 export default function Loans() {
   return (
-    <div>
+    <div className="p-4">
       <h3>Loans</h3>
-      <a href="/loans/calculator">Loan Calculator</a>
+      <Link to="/loans/calculator">Loan Calculator</Link>
+      <h3>Loan Accounts</h3>
     </div>
   );
 }

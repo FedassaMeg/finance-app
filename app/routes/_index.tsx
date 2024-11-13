@@ -8,7 +8,7 @@ import { requiredUserId } from "../utils/auth.server";
 
 export default function Index() {
   return (
-    <div className="h-screen bg-slate-700 flex justify-center items-center">
+    <div className="bg-slate-100 flex justify-center items-center">
       <h1 className="text-blue-600 font-extrabold text-5xl">
         Dashboard 
       </h1>

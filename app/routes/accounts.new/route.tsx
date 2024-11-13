@@ -26,7 +26,7 @@ export default function AddNewAccount() {
   };
 
   return (
-    <div className="h-full justify-center">
+    <div className="h-full w-full justify-center p-4">
       <h3 className="font-semibold text-gray-600">Add New Account</h3>
       <form method="POST" className="rounded bg-gray-200 p-4">
         <FormField

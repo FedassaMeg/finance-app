@@ -1,6 +1,6 @@
 export default function New() {
   return (
-    <div>
+    <div className="p-4">
       <div>
         <div>
           <span>Income</span>

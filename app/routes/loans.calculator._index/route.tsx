@@ -1,6 +1,6 @@
 export default function Calculator() {
   return (
-    <div>
+    <div className="h-full w-full p-4">
       <h3>Loan Calculator</h3>
       <div>
         <form>

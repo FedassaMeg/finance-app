@@ -1,22 +1,22 @@
 import { useLoaderData, Link } from "@remix-run/react";
 import prisma from "../../lib/db.server";
 
-export const loader = async () => {
-  console.log()
-  const data = {
-    accounts: await prisma.account.findMany(),
-  };
+// export const loader = async () => {
+//   console.log()
+//   const data = {
+//     accounts: await prisma.account.findMany(),
+//   };
 
-  return data;
-};
+//   return data;
+// };
 
 export default function Account() {
-  const { accounts } = useLoaderData();
-
+  // const { accounts } = useLoaderData();
+  const accounts = [];
   return (
-    <div>
+    <div className="p-4">
       <h3>Account</h3>
-      <a href="account/new">Add New Account</a>
+      <Link to="/accounts/new">Add New Account</Link>
       <div>
         <span>Show existing accounts</span>
         <ul>

@@ -15,7 +15,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 export default function AccountDetails() {
   const { account } = useLoaderData<typeof loader>();
   return (
-    <div>
+    <div className="p-4">
       <h3>Account Details for {account.name}</h3>
       <div>
         <div>
