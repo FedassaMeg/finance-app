@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
+import { Link } from "@remix-run/react";
 
 export function AppSidebar() {
   return (
@@ -18,62 +19,38 @@ export function AppSidebar() {
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Actions</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem key="Home">
                 <SidebarMenuButton asChild>
-                  <a href="/">
+                  <Link to="/">
                     <Home />
-                    <span>Home</span>
-                  </a>
+                    Home
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem key="Accounts">
                 <SidebarMenuButton asChild>
-                  <a href="/loans">
+                  <Link to="/accounts">
                     <WalletMinimal />
-                    <span>Accounts</span>
-                  </a>
+                    Accounts
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem key="Expenses">
                 <SidebarMenuButton asChild>
-                  <a href="/expenses">
+                  <Link to="/expenses">
                     <Receipt />
-                    <span>Expenses</span>
-                  </a>
+                    Expenses
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Actions</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem key="Home">
+              <SidebarMenuItem key="Loans">
                 <SidebarMenuButton asChild>
-                  <a href="/">
-                    <Home />
-                    <span>Home</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem key="Accounts">
-                <SidebarMenuButton asChild>
-                  <a href="/loans">
-                    <WalletMinimal />
-                    <span>Accounts</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem key="Expenses">
-                <SidebarMenuButton asChild>
-                  <a href="/expenses">
+                  <Link to="/loans">
                     <Receipt />
-                    <span>Expenses</span>
-                  </a>
+                    Loans
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
