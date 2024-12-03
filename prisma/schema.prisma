@@ -8,93 +8,93 @@ generator client {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String    @unique
-  password  String
-  firstName String?
-  lastName  String?
-  accounts  Account[]
-  budgets Budget[]
-  loans Loan[]
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  email        String        @unique
+  password     String
+  firstName    String?
+  lastName     String?
+  accounts     Account[]
+  budgets      Budget[]
+  loans        Loan[]
   transactions Transaction[]
-  investments Investment[]
+  investments  Investment[]
 }
 
 model Account {
-  id      Int       @id @default(autoincrement())
-  name    String
-  type    String
-  balance Float
-  userId  Int
-  user    User      @relation(fields: [userId], references: [id])
-  debitTransactionLines TransactionLine[] @relation("TransactionLinesDebit")
+  id                     Int               @id @default(autoincrement())
+  name                   String
+  type                   String
+  balance                Float?
+  userId                 Int?
+  user                   User?             @relation(fields: [userId], references: [id])
+  debitTransactionLines  TransactionLine[] @relation("TransactionLinesDebit")
   creditTransactionLines TransactionLine[] @relation("TransactionLinesCredit")
-  transactions Transaction[]
+  transactions           Transaction[]
 }
 
 model Transaction {
-  id          Int       @id @default(autoincrement())
-  date        DateTime
-  description String
-  amount      Float
-  status      String
-  userId      Int
-  user        User      @relation(fields: [userId], references: [id])
-  account          Account          @relation(fields: [userId], references: [id])
+  id               Int               @id @default(autoincrement())
+  date             DateTime
+  description      String?
+  amount           Float
+  status           String?
+  userId           Int?
+  user             User?             @relation(fields: [userId], references: [id])
+  account          Account?          @relation(fields: [userId], references: [id])
   transactionLines TransactionLine[]
 }
 
 model TransactionLine {
-  id            Int       @id @default(autoincrement())
-  debitAccountId  Int
-  creditAccountId Int
-  transactionId  Int
-  amount        Float
-  debitAccount  Account  @relation("TransactionLinesDebit", fields: [debitAccountId], references: [id])
-  creditAccount Account  @relation("TransactionLinesCredit", fields: [creditAccountId], references: [id])
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  id              Int          @id @default(autoincrement())
+  debitAccountId  Int?
+  creditAccountId Int?
+  transactionId   Int?
+  amount          Float
+  debitAccount    Account?     @relation("TransactionLinesDebit", fields: [debitAccountId], references: [id])
+  creditAccount   Account?     @relation("TransactionLinesCredit", fields: [creditAccountId], references: [id])
+  transaction     Transaction? @relation(fields: [transactionId], references: [id])
 }
 
 model Loan {
-  id             Int       @id @default(autoincrement())
-  name           String
-  principalAmount Float
-  interestRate   Float
-  term           Int
-  startDate      DateTime
-  endDate        DateTime
-  userId         Int
-  user           User      @relation(fields: [userId], references: [id])
+  id              Int     @id @default(autoincrement())
+  name            String
+  principalAmount Float?
+  interestRate    Float?
+  term            Int?
+  startDate       String?
+  endDate         String?
+  userId          Int?
+  user            User?   @relation(fields: [userId], references: [id])
 }
 
 model Investment {
-  id                Int       @id @default(autoincrement())
-  name              String
-  type              String
-  purchaseDate      DateTime
-  purchasePrice     Float
-  quantity          Float
-  currentMarketValue Float
-  userId            Int
-  user              User      @relation(fields: [userId], references: [id])
+  id                 Int       @id @default(autoincrement())
+  name               String
+  type               String?
+  purchaseDate       DateTime?
+  purchasePrice      Float?
+  quantity           Float?
+  currentMarketValue Float?
+  userId             Int?
+  user               User?     @relation(fields: [userId], references: [id])
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String
-  type String
+  id      Int      @id @default(autoincrement())
+  name    String
+  type    String?
   budgets Budget[]
 }
 
 model Budget {
-  id         Int      @id @default(autoincrement())
-  categoryId Int
+  id         Int       @id @default(autoincrement())
+  categoryId Int?
   amount     Float
-  startDate  DateTime
-  endDate    DateTime
-  userId     Int
-  user       User     @relation(fields: [userId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
+  startDate  String?
+  endDate    String?
+  userId     Int?
+  user       User?     @relation(fields: [userId], references: [id])
+  category   Category? @relation(fields: [categoryId], references: [id])
 }
